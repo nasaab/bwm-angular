@@ -77,4 +77,16 @@ export class RentalService {
         });
         return rentalObservable;
     }
+
+    public getRentalById(rentalId: string): Observable<Rental> {
+        return new Observable<Rental>((observer) => {
+            setTimeout(() => {
+                const foundRental = this.rentals.find((rental) => {
+                    return rental.id == rentalId;
+                });
+
+                observer.next(foundRental);
+            }, 500);
+        });
+    }
 }
