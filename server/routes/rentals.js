@@ -6,7 +6,7 @@ router.get('', function(req, res) {
     //res.json({'Ok': true});
     Rental.find({}, function(err, foundRentals) {
         res.json(foundRentals);
-    })
+    });
 });
 
 router.get('/:id', function(req, res) {

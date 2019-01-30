@@ -19,7 +19,6 @@ export class RentalListComponent implements OnInit {
     //Using Observable
 
     const rentalObservable = this.rentalService.getRentals();
-
     rentalObservable.subscribe(
       (rentals: Rental[]) => {
         this.rentals = rentals;
