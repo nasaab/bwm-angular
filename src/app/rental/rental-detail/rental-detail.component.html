@@ -5,7 +5,9 @@
         <img src="{{ rental.image }}" alt="">
       </div>
       <div class="col-md-6">
-        <img src="{{ rental.image }}" alt="">
+        <!-- <img src="{{ rental.image }}" alt=""> -->
+        <!-- here we import map component for particular city + street -->
+        <bwm-map [location]="rental.city + ', ' + rental.street"></bwm-map>
       </div>
     </div>
   </div>

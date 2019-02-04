@@ -14,6 +14,9 @@ import { RentalDetailComponent } from './rental-detail/rental-detail.component';
 // Custom pipe import 
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
 
+//Import map module
+import { MapModule } from '../common/map/map.module';
+
 const routes: Routes = [
     { path: 'rentals', component: RentalComponent,
         children: [
@@ -32,7 +35,8 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
         HttpClientModule,
-        NgPipesModule
+        NgPipesModule,
+        MapModule
     ],
     providers: [RentalService]
 })
