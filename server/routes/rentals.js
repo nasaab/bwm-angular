@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Rental = require('../model/rental');
+const UserController = require('../controllers/user');
+
+router.get('/secret', UserController.authMiddleware,  function(req, res){
+    res.json({"secret": true});
+});
 
 router.get('', function(req, res) {
     //res.json({'Ok': true});
