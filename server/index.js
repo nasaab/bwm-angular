@@ -8,6 +8,7 @@ const FakeDb = require('./fake-db'); // to avoid every time new loading of fake 
 
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
+const bookingRoutes = require('./routes/bookings');
 
 const settings = {
       reconnectTries : Number.MAX_VALUE,
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
 
 const PORT = process.env.PORT || 3001;
 
