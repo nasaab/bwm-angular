@@ -8,9 +8,13 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { RentalComponent } from './rental.component';
 import { RentalListComponent } from './rental-list/rental-list.component';
 import { RentalListItemComponent } from './rental-list-item/rental-list-item.component';
+import { RentalDetailComponent } from './rental-detail/rental-detail.component';
+import { RentalDetailBookingComponent } from './rental-detail/rental-detail-booking/rental-detail-booking.component';
 
 import { RentalService } from '../rental/shared/rental.service';
-import { RentalDetailComponent } from './rental-detail/rental-detail.component';
+import { HelperService } from '../common/shared/helper.service';
+
+
 
 // Custom pipe import 
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
@@ -18,7 +22,11 @@ import { UppercasePipe } from '../common/pipes/uppercase.pipe';
 //Import map module
 import { MapModule } from '../common/map/map.module';
 import { AuthGuard } from '../auth/shared/auth.guard';
-import { RentalDetailBookingComponent } from './rental-detail/rental-detail-booking/rental-detail-booking.component';
+import { FormsModule } from '@angular/forms';
+import { BookingService } from '../booking/shared/booking.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 const routes: Routes = [
     { path: 'rentals', component: RentalComponent,
@@ -41,9 +49,10 @@ const routes: Routes = [
         HttpClientModule,
         NgPipesModule,
         MapModule,
-        Daterangepicker
+        Daterangepicker,
+        FormsModule
     ],
-    providers: [RentalService]
+    providers: [RentalService, HelperService, BookingService]
 })
  
 export class RentalModule {
