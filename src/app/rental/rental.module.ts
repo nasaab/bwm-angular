@@ -10,6 +10,7 @@ import { RentalListComponent } from './rental-list/rental-list.component';
 import { RentalListItemComponent } from './rental-list-item/rental-list-item.component';
 import { RentalDetailComponent } from './rental-detail/rental-detail.component';
 import { RentalDetailBookingComponent } from './rental-detail/rental-detail-booking/rental-detail-booking.component';
+import { RentalSearchComponent } from './rental-search/rental-search.component';
 
 import { RentalService } from '../rental/shared/rental.service';
 import { HelperService } from '../common/shared/helper.service';
@@ -25,14 +26,16 @@ import { AuthGuard } from '../auth/shared/auth.guard';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../booking/shared/booking.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { RentalCreateComponent } from './rental-create/rental-create.component';
 
 const routes: Routes = [
     { path: 'rentals', component: RentalComponent,
         children: [
             { path: '', component: RentalListComponent },
-            { path: ':rentalId', component: RentalDetailComponent, canActivate: [AuthGuard] }
+            { path: 'new', component: RentalCreateComponent, canActivate: [AuthGuard] },
+            // { path: ':rentalId', component: RentalDetailComponent, canActivate: [AuthGuard] }, // to not show everybody the details of rental
+            { path: ':rentalId', component: RentalDetailComponent }, // to show the details to everybody
+            { path: ':city/homes', component: RentalSearchComponent}
         ] 
     }
   ];
@@ -41,7 +44,9 @@ const routes: Routes = [
     declarations: [
         RentalComponent, RentalListComponent, RentalListItemComponent, RentalDetailComponent,
         UppercasePipe,
-        RentalDetailBookingComponent
+        RentalDetailBookingComponent,
+        RentalSearchComponent,
+        RentalCreateComponent
     ],
     imports: [
         CommonModule,

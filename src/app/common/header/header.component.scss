@@ -32,4 +32,9 @@
             box-shadow: none; 
         }
     }
+
+    .dropdown-item {
+        font-size: 14px;
+        background-color: $main-color;
+    }
 }

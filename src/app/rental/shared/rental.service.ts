@@ -15,6 +15,14 @@ export class RentalService {
     public getRentalById(rentalId: string): Observable<any> {
         return this.http.get('/api/v1/rentals/' + rentalId);
     }
+
+    public getRentalByCity(city: string): Observable<any> {
+        return this.http.get(`/api/v1/rentals?city=${city}`);
+    }
+
+    public createRental(rental: Rental): Observable<any> {
+        return this.http.post('/api/v1/rentals', rental);
+    }
     // private rentals: Rental[] = [{
     //     id: "1",
     //     title: "Central Apartment",
