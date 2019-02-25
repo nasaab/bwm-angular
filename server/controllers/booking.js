@@ -8,7 +8,8 @@ exports.createBooking = function(req, res) {
     const { startAt, endAt, totalPrice, guests, days, rental } = req.body;
 
     const user = res.locals.user;
-
+    console.log("create booking function");
+    console.log(user);
     const booking = new Booking({startAt, endAt, totalPrice, guests, days});
 
     Rental.findById(rental._id).populate('bookings').populate('user').exec(function(err, foundRental) {
@@ -40,6 +41,22 @@ exports.createBooking = function(req, res) {
             return res.status(422).send({error: {title: 'Invalid Booking', detail: 'Choosen dated are already taken!'}});
         }
     });
+}
+
+exports.getUserBookings = function(req, res) {
+    console.log("getUserBookings function");
+    const user = res.locals.user;
+
+    Booking.where({user: user})
+            .populate('rental')
+            .exec(function(err, foundBookings) {
+                if(err) {
+                    console.log(err);
+                    return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)}); 
+                }
+                console.log(foundBookings);
+                res.json(foundBookings);
+            })
 }
 
 function isValidBooking(proposedBooking, rental) {
