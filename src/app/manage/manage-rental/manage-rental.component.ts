@@ -33,7 +33,7 @@ export class ManageRentalComponent implements OnInit {
         this.rentalDeleteIndex = undefined;
       },
       (errorResponse: HttpErrorResponse) => {
-        this.toastr.error(errorResponse.error.error[0].details, 'Failed');
+        this.toastr.error(errorResponse.error.error[0].detail, 'Failed');
       }
     );
   }

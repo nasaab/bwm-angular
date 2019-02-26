@@ -1,4 +1,4 @@
-<button (click)="modalSrvice.open(bookingModal)" class="btn btn-ghost">Show Bookings</button> <!-- Click event to open modal, dont forget to inject modal service in .ts file -->
+<button (click)="modalService.open(bookingModal)" class="btn btn-ghost">Show Bookings</button> <!-- Click event to open modal, dont forget to inject modal service in .ts file -->
 
 <ng-template #bookingModal let-c="close" let-d="dismiss">
   <div class="modal-header">

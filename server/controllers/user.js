@@ -4,7 +4,8 @@ const MongooseHelpers = require('../helpers/mongoose');
 // const { normalizeErrors } = require('../helpers/mongoose');
 
 const jwt = require('jsonwebtoken');
-const config = require('../config/dev');
+// const config = require('../config/dev'); // This is not required as we are moving to production env
+const config = require('../config');
 
 exports.auth = function(req, res) {
     const email = req.body.email;

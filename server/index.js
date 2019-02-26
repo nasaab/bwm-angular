@@ -2,13 +2,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const config = require('./config/dev');
+// const config = require('./config/dev'); // This is not required as we are moving to production env
+const config = require('./config');
 const Rental = require('./model/rental');
 const FakeDb = require('./fake-db'); // to avoid every time new loading of fake data
 
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
+const path = require('path');
 
 const settings = {
       reconnectTries : Number.MAX_VALUE,
@@ -17,8 +19,10 @@ const settings = {
 };
 
 mongoose.connect(config.DB_URI, settings).then(() => {
-    const fakeDb = new FakeDb();
-    //fakeDb.seedDb(); // to avoid every time new loading of fake data
+    if(process.env.NODE_ENV !== 'production') {
+        const fakeDb = new FakeDb();
+        //fakeDb.seedDb(); // to avoid every time new loading of fake data
+    }
 }).catch((err) => {
     console.log(err);
 }) ;
@@ -34,6 +38,15 @@ app.use(bodyParser.json());
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
+
+if(process.env.NODE_ENV === 'production') {
+    const appPath = path.join(__dirname, '..', 'dist');
+    app.use(express.static(appPath));
+
+    app.get('*', function(req, res) {
+    res.sendFile(path.resolve(appPath, 'index.html'));
+    });
+}
 
 const PORT = process.env.PORT || 3001;
 
