@@ -23,6 +23,22 @@ router.get('/manage', UserController.authMiddleware, function(req, res) {
             });
 });
 
+router.get('/:id/verify-user', UserController.authMiddleware, function(req, res) {
+    const user = res.locals.user;
+    Rental.findById(req.params.id)
+            .populate('user')
+            .exec(function(err, foundRental) {
+                if(err) {                    
+                    return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)});
+                }
+
+                if(foundRental.user.id !== user.id) {
+                    return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
+                }
+                return res.json({status: 'Verified'});
+            });
+})
+
 router.get('/:id', function(req, res) {
     const rentalId = req.params.id;
 
@@ -36,6 +52,32 @@ router.get('/:id', function(req, res) {
         return res.json(foundRental);
     });  
 });
+
+router.patch('/:id', UserController.authMiddleware, function(req, res) {
+    const rentalData = req.body;
+    const user = res.locals.user;
+
+    Rental.findById(req.params.id)
+            .populate('user')
+            .exec(function(err, foundRental) {
+                if(err) {                    
+                    return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)});
+                }
+
+                if(foundRental.user.id !== user.id) {
+                    return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
+                }
+
+                foundRental.set(rentalData);
+                foundRental.save(function(err) {
+                    if(err) {
+                        return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)});
+                    }
+
+                    return res.status(200).send(foundRental); 
+                })
+            })
+})
 
 router.delete('/:id', UserController.authMiddleware, function(req, res) {
     const user = res.locals.user;

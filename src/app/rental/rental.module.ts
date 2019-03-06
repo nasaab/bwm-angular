@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from "@angular/common/http";
-import { NgPipesModule } from 'ngx-pipes';
+import { NgPipesModule, UcWordsPipe } from 'ngx-pipes';
 import { Daterangepicker } from 'ng2-daterangepicker';
  
 import { RentalComponent } from './rental.component';
@@ -15,7 +15,7 @@ import { RentalSearchComponent } from './rental-search/rental-search.component';
 import { RentalService } from '../rental/shared/rental.service';
 import { HelperService } from '../common/shared/helper.service';
 
-
+import { EditableModule } from '../common/components/editable/editable.module';
 
 // Custom pipe import 
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
@@ -23,16 +23,19 @@ import { UppercasePipe } from '../common/pipes/uppercase.pipe';
 //Import map module
 import { MapModule } from '../common/map/map.module';
 import { AuthGuard } from '../auth/shared/auth.guard';
+import { RentalGuard } from '../rental/shared/rental.guard';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../booking/shared/booking.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RentalCreateComponent } from './rental-create/rental-create.component';
+import { RentalUpdateComponent } from './rental-update/rental-update.component';
 
 const routes: Routes = [
     { path: 'rentals', component: RentalComponent,
         children: [
             { path: '', component: RentalListComponent },
             { path: 'new', component: RentalCreateComponent, canActivate: [AuthGuard] },
+            { path: ':rentalId/edit', component: RentalUpdateComponent, canActivate: [AuthGuard, RentalGuard] },
             // { path: ':rentalId', component: RentalDetailComponent, canActivate: [AuthGuard] }, // to not show everybody the details of rental
             { path: ':rentalId', component: RentalDetailComponent }, // to show the details to everybody
             { path: ':city/homes', component: RentalSearchComponent}
@@ -46,7 +49,8 @@ const routes: Routes = [
         UppercasePipe,
         RentalDetailBookingComponent,
         RentalSearchComponent,
-        RentalCreateComponent
+        RentalCreateComponent,
+        RentalUpdateComponent
     ],
     imports: [
         CommonModule,
@@ -55,9 +59,10 @@ const routes: Routes = [
         NgPipesModule,
         MapModule,
         Daterangepicker,
-        FormsModule
+        FormsModule,
+        EditableModule
     ],
-    providers: [RentalService, HelperService, BookingService]
+    providers: [RentalService, HelperService, BookingService, UcWordsPipe, RentalGuard]
 })
  
 export class RentalModule {

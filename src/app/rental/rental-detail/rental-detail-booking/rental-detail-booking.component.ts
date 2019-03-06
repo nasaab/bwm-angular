@@ -85,7 +85,6 @@ export class RentalDetailBookingComponent implements OnInit {
     this.newBooking.rental = this.rental;
     this.bookingService.createBooking(this.newBooking).subscribe(
       (bookingDate: any) => {
-        debugger
         this.newBooking = new Booking();
         this.addNewBookedOutDates(bookingDate);
         this.modalRef.close();
