@@ -16,7 +16,6 @@ export class ManageBookingComponent implements OnInit {
   ngOnInit() {
     this.bookingService.getUserBookings().subscribe(
       (bookings: Booking[]) => {
-        debugger
         this.bookings = bookings;
       },
       (errorResponse: HttpErrorResponse) => {
