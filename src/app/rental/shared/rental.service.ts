@@ -37,7 +37,7 @@ export class RentalService {
     }
 
     public verifyRentalUser(rentalId: string): Observable<any> {
-        return this.http.get('/api/v1/rentals/${rentalId}/verify-user');
+        return this.http.get(`/api/v1/rentals/${rentalId}/verify-user`);
     }
     // private rentals: Rental[] = [{
     //     id: "1",

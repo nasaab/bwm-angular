@@ -59,7 +59,7 @@ export class RentalUpdateComponent implements OnInit {
         }
       },
       (errorResponse: HttpErrorResponse) => {
-        this.toastr.error(errorResponse.error.error[0].detail, 'Errror');
+        this.toastr.error(errorResponse.error.error[0].detail, 'Error');
         this.getRental(rentalId);
       }
     );

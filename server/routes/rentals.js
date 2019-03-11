@@ -25,16 +25,20 @@ router.get('/manage', UserController.authMiddleware, function(req, res) {
 
 router.get('/:id/verify-user', UserController.authMiddleware, function(req, res) {
     const user = res.locals.user;
+    console.log(req.params.id);
     Rental.findById(req.params.id)
             .populate('user')
             .exec(function(err, foundRental) {
-                if(err) {                    
+                if(err) {     
+                    console.log('inside verify user mongoose error');               
                     return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)});
                 }
 
                 if(foundRental.user.id !== user.id) {
+                    console.log('inside verify user rental not found with user');
                     return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
                 }
+                console.log('user vrified');
                 return res.json({status: 'Verified'});
             });
 })

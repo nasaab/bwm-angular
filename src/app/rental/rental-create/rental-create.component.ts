@@ -27,10 +27,17 @@ export class RentalCreateComponent implements OnInit {
     this.newRental.image = 'https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg';
   }
 
+  handleImageUploaded(imageUrl: string) {
+    this.newRental.image = imageUrl;
+  }
+
+  handleImageError() {
+    this.newRental.image = '';
+  }
+
   createRental() {
     this.rentalService.createRental(this.newRental).subscribe(
       (rental: Rental) => {
-        debugger
         this.router.navigate([`/rentals/${rental._id}`]);
       },
       (errorResponse: HttpErrorResponse) => {

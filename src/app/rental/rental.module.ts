@@ -1,34 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from "@angular/common/http";
 import { NgPipesModule, UcWordsPipe } from 'ngx-pipes';
 import { Daterangepicker } from 'ng2-daterangepicker';
- 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+// import components
 import { RentalComponent } from './rental.component';
 import { RentalListComponent } from './rental-list/rental-list.component';
 import { RentalListItemComponent } from './rental-list-item/rental-list-item.component';
 import { RentalDetailComponent } from './rental-detail/rental-detail.component';
 import { RentalDetailBookingComponent } from './rental-detail/rental-detail-booking/rental-detail-booking.component';
 import { RentalSearchComponent } from './rental-search/rental-search.component';
+import { RentalCreateComponent } from './rental-create/rental-create.component';
+import { RentalUpdateComponent } from './rental-update/rental-update.component';
 
+// import services
 import { RentalService } from '../rental/shared/rental.service';
 import { HelperService } from '../common/shared/helper.service';
+import { BookingService } from '../booking/shared/booking.service';
 
+// import modules
 import { EditableModule } from '../common/components/editable/editable.module';
+import { ImageUploadModule } from '../common/components/image-upload/image-upload.module';
+//Import map module
+import { MapModule } from '../common/map/map.module';
 
 // Custom pipe import 
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
 
-//Import map module
-import { MapModule } from '../common/map/map.module';
+// import guards
 import { AuthGuard } from '../auth/shared/auth.guard';
 import { RentalGuard } from '../rental/shared/rental.guard';
-import { FormsModule } from '@angular/forms';
-import { BookingService } from '../booking/shared/booking.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RentalCreateComponent } from './rental-create/rental-create.component';
-import { RentalUpdateComponent } from './rental-update/rental-update.component';
 
 const routes: Routes = [
     { path: 'rentals', component: RentalComponent,
@@ -60,7 +65,8 @@ const routes: Routes = [
         MapModule,
         Daterangepicker,
         FormsModule,
-        EditableModule
+        EditableModule,
+        ImageUploadModule
     ],
     providers: [RentalService, HelperService, BookingService, UcWordsPipe, RentalGuard]
 })

@@ -47,13 +47,9 @@
             </div>
   
             <div class="form-group">
-              <label for="image">Image</label>
-              <input type="file"
-                     name="image"
-                     class="form-control"
-                     id="image"
-                     placeholder="Upload file..."
-                     (change)="handleImageUpload()">
+              <bwm-image-upload (imageUploaded)="handleImageUploaded($event)"
+                                (imageError)="handleImageError($event)">
+              </bwm-image-upload>
             </div>
   
             <div class="form-group">
@@ -103,7 +99,7 @@
                      [(ngModel)]="newRental.shared">
             </div>
             <button (click)="createRental()" 
-              [disabled]="!rentalForm.form.valid"
+              [disabled]="!rentalForm.form.valid || !newRental.image"
               class="btn btn-bwm">Submit</button>
           </form>
           <div *ngIf="errors.length > 0" class="alert alert-danger">
