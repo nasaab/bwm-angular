@@ -1,3 +1,5 @@
+
+import { map } from 'rxjs/operators/map';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +13,7 @@ export class ImageUploadService {
         const formData = new FormData();
         formData.append('image', image);
 
-        return this.http.post('/api/v1/image-upload', formData).
-            map(((json: any) => json.imageUrl));
+        return this.http.post('/api/v1/image-upload', formData).pipe(
+            map(((json: any) => json.imageUrl)));
     } 
 }

@@ -1,9 +1,14 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { HttpClient } from '@angular/common/http';
-import * as jwt from 'jsonwebtoken';   
+// import * as jwt from 'jsonwebtoken';
+import { JwtHelperService } from '@auth0/angular-jwt';   
 import * as moment from 'moment';
 import 'rxjs/Rx';
+
+const jwt = new JwtHelperService();
 
 class DecodedToken {
     exp: number = 0;
@@ -19,7 +24,7 @@ export class AuthService {
     }
 
     private saveToken(token) {
-        this.decodedToken = jwt.decode(token);
+        this.decodedToken = jwt.decodeToken(token);
         localStorage.setItem('bwm_auth', token);
         localStorage.setItem('bwm_meta', JSON.stringify(this.decodedToken));
         return token;
@@ -34,11 +39,11 @@ export class AuthService {
     }
 
     public login(userData: any): Observable<any> {
-        return this.http.post('/api/v1/users/auth', userData).map(
+        return this.http.post('/api/v1/users/auth', userData).pipe(map(
             (token: string) => {
                 return this.saveToken(token);
             }
-        );
+        ));
     }
 
     public logout() {
