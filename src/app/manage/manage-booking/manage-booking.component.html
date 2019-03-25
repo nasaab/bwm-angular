@@ -2,7 +2,7 @@
   <h1 class="page-title">My Bookings</h1>
   <div class="row">
      <ng-container *ngIf="bookings && bookings.length > 0"> <!-- Check for bookings length -->
-      <div class="col-md-4" *ngFor="let booking of bookings"> <!-- Iterate bookings here -->
+      <div class="col-md-4" *ngFor="let booking of bookings; let i = index"> <!-- Iterate bookings here -->
         <div class="card text-center">
           <div class="card-header">
             {{ booking.rental ? booking.rental.category: 'Deleted Rental'}}  <!-- rental category -->
@@ -18,6 +18,10 @@
           </div>
           <div class="card-footer text-muted">
             Created {{ booking.createdAt }} <!-- booking createdAt -->
+            <bwm-review *ngIf="!booking.review && isExpired(booking.endAt)" 
+              [bookingId]="booking._id"
+              (reviewSubmitted)="reviewPublished(i, $event)">
+            </bwm-review>
           </div>
         </div>
       </div>
@@ -25,6 +29,42 @@
     <div *ngIf="bookings && bookings.length === 0" class="alert alert-warning"> <!-- check if booking length == 0 -->
       You have no bookings created go to rentals section and book your place today.
       <a class="btn btn-danger" routerLink="/rentals">Available Rentals</a> <!-- link to /rentals -->
+    </div>
+  </div>
+
+
+
+  <h1 class="page-title">My Pending Bookings</h1>
+  <div class="row">
+     <ng-container *ngIf="payments && payments.length > 0"> <!-- Check for payments length -->
+      <div class="col-md-4" *ngFor="let payment of payments"> <!-- Iterate payments here -->
+        <div class="card text-center">
+          <div class="card-header">
+            Booking made by {{payment.fromUser.username}}
+          </div>
+          <div class="card-block">
+            <ng-container *ngIf="payment.booking.rental">
+              <h4 class="card-title">{{ payment.booking.rental.title }} - {{ payment.booking.rental.city | ucwords }} </h4> <!-- rental title and city -->
+              <p class="card-text booking-desc">{{ payment.booking.rental.description }}</p> <!-- rental description -->
+            </ng-container>
+            <p class="card-text booking-days"> {{ payment.booking.startAt | formatDate }} -{{ payment.booking.endAt | formatDate }} | {{ payment.booking.days }} days</p> <!-- booking startAt - endAt | days -->
+            <p class="card-text"><span>Revenue: </span> <span class="booking-price-value">{{ payment.amount / 100 }} $</span></p>
+            <p class="card-text"><span>Status: </span> <span class="booking-price-value">{{ payment.status }}</span></p>
+            <a *ngIf="payment.booking.rental" class="btn btn-danger" routerLink="/rentals/{{payment.booking.rental._id}}">Go to Rental</a> 
+          </div>
+          <div class="card-footer text-muted">
+            Created {{ payment.booking.createdAt | formatDate }} <!-- booking createdAt -->
+
+            <div *ngIf="payment.status === 'pending'">
+              <button class="btn btn-success" (click)="acceptPayment(payment)">Confirm</button>
+              <button class="btn btn-danger" (click)="declinePayment(payment)">Decline</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="payments && payments.length === 0" class="alert alert-warning"> <!-- check if booking length == 0 -->
+      You have no pending booking currently.      
     </div>
   </div>
 </section>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { NgPipesModule } from 'ngx-pipes';
 
+import { ReviewModule } from '../review/review.module';
+
 import { AuthGuard } from '../auth/shared/auth.guard';
 import { ManageComponent } from './manage.component';
 import { ManageRentalComponent } from './manage-rental/manage-rental.component';
@@ -31,7 +33,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    NgPipesModule
+    NgPipesModule,
+    ReviewModule
   ],
   providers: [
       RentalService,

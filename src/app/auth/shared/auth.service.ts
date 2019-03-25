@@ -4,11 +4,13 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from '@angular/common/http';
 // import * as jwt from 'jsonwebtoken';
-import { JwtHelperService } from '@auth0/angular-jwt';   
+//import { JwtHelperService } from '@auth0/angular-jwt';   
+import { JwtHelper } from 'angular2-jwt';
 import * as moment from 'moment';
 import 'rxjs/Rx';
 
-const jwt = new JwtHelperService();
+//const jwt = new JwtHelperService();
+const jwt: JwtHelper = new JwtHelper();
 
 class DecodedToken {
     exp: number = 0;
@@ -59,6 +61,10 @@ export class AuthService {
 
     public getUsername(): string {
         return this.decodedToken.username;
+    }
+
+    public getUserId(): string {
+        return this.decodedToken.userId;
     }
 
     public getAuthToken(): string {

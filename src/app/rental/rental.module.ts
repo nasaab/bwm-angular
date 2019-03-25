@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgPipesModule, UcWordsPipe } from 'ngx-pipes';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StarRatingModule } from 'angular-star-rating';
 
 // import components
 import { RentalComponent } from './rental.component';
@@ -27,6 +28,7 @@ import { EditableModule } from '../common/components/editable/editable.module';
 import { ImageUploadModule } from '../common/components/image-upload/image-upload.module';
 //Import map module
 import { MapModule } from '../common/map/map.module';
+import { PaymentModule } from '../payment/payment.module';
 
 // Custom pipe import 
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
@@ -66,7 +68,9 @@ const routes: Routes = [
         Daterangepicker,
         FormsModule,
         EditableModule,
-        ImageUploadModule
+        ImageUploadModule,
+        PaymentModule,
+        StarRatingModule.forRoot()
     ],
     providers: [RentalService, HelperService, BookingService, UcWordsPipe, RentalGuard]
 })

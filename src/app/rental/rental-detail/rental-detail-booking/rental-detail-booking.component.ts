@@ -74,6 +74,10 @@ export class RentalDetailBookingComponent implements OnInit {
     console.log(this.newBooking);
   }
 
+  onPaymentConfirmed(paymentToken: any) {
+    this.newBooking.paymentToken = paymentToken;
+  }
+
   private resetDatePicker() {
     this.picker.datePicker.setStartDate(moment());
     this.picker.datePicker.setEndDate(moment());
@@ -83,6 +87,7 @@ export class RentalDetailBookingComponent implements OnInit {
   public createBooking() {
     console.log(this.newBooking);
     this.newBooking.rental = this.rental;
+    debugger
     this.bookingService.createBooking(this.newBooking).subscribe(
       (bookingDate: any) => {
         this.newBooking = new Booking();
@@ -93,7 +98,12 @@ export class RentalDetailBookingComponent implements OnInit {
       },
 
       (errorResponse: any) => {
-        this.errors.push(errorResponse.error.error);
+        debugger
+        if(errorResponse.error.error.length > 0) {
+          this.errors.push(errorResponse.error.error);
+        } else {
+          this.errors.push({title: 'Mongoose error', detail: 'Mongoose network error occured, please try again.'});
+        }
       }
     );
   }
