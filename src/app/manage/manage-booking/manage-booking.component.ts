@@ -24,13 +24,12 @@ export class ManageBookingComponent implements OnInit {
       (bookings: Booking[]) => {
         debugger
         this.bookings = bookings;
+        this.getPendingPayments();
       },
       (errorResponse: HttpErrorResponse) => {
         debugger
       }
     );
-
-    //this.getPendingPayments();
   }
 
   getPendingPayments() {

@@ -79,10 +79,15 @@ exports.getRentalRating = function(req, res) {
             "ratingAvg": {"$avg": "$rating"}
         }}
     ], function(err, result) {
-        if(err) {
-            return res.status(422).send({error: MongooseHelpers.normalizeErrors(err.errors)});
-        }
-
-        return res.json(result[0]['ratingAvg']);
+        if (err) {
+            return res.status(422).send({errors: MongooseHelpersnormalizeErrors(err.errors)});
+          }
+          const results = result[0];
+    
+          if (results && results['ratingAvg']) {
+            return res.json(results['ratingAvg']);
+          } else {
+            return res.json(null);
+          }
     });
 }
