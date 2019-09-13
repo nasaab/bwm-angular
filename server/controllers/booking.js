@@ -30,7 +30,7 @@ exports.createBooking = function(req, res) {
 
         if(foundRental.user.id === user.id) {
             console.log("Invalid User on line 31");
-            return res.status(422).send({error: {title: 'Invalid user', detail: 'Cannot create booking on your Rental'}});
+            return res.status(422).send({error: [{title: 'Invalid user', detail: 'Cannot create booking on your Rental'}]});
         }
 
         //Check here for valid booking

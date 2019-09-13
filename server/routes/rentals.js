@@ -36,7 +36,7 @@ router.get('/:id/verify-user', UserController.authMiddleware, function(req, res)
 
                 if(foundRental.user.id !== user.id) {
                     console.log('inside verify user rental not found with user');
-                    return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
+                    return res.status(422).send({error: [{title: 'Invalid User', detail: 'You are not rental owner'}]});  
                 }
                 console.log('user vrified');
                 return res.json({status: 'Verified'});
@@ -51,7 +51,7 @@ router.get('/:id', function(req, res) {
           .populate('bookings', 'startAt endAt -_id')
           .exec(function(err, foundRental) {
         if(err) {
-            return res.status(422).send({error: {title: 'Rental Error', detail: 'Could not found Rental'}});
+            return res.status(422).send({error: [{title: 'Rental Error', detail: 'Could not found Rental'}]});
         }
         return res.json(foundRental);
     });  
@@ -69,7 +69,7 @@ router.patch('/:id', UserController.authMiddleware, function(req, res) {
                 }
 
                 if(foundRental.user.id !== user.id) {
-                    return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
+                    return res.status(422).send({error: [{title: 'Invalid User', detail: 'You are not rental owner'}]});  
                 }
 
                 foundRental.set(rentalData);
@@ -101,11 +101,11 @@ router.delete('/:id', UserController.authMiddleware, function(req, res) {
                 }
 
                 if(user.id !== foundRental.user.id) {
-                    return res.status(422).send({error: {title: 'Invalid User', detail: 'You are not rental owner'}});  
+                    return res.status(422).send({error: [{title: 'Invalid User', detail: 'You are not rental owner'}]});  
                 }
 
                 if(foundRental.bookings.length > 0) {
-                    return res.status(422).send({error: {title: 'Active Bookings', detail: 'Cannot delete rental with active booking'}});
+                    return res.status(422).send({error: [{title: 'Active Bookings', detail: 'Cannot delete rental with active booking'}]});
                 }
 
                 foundRental.remove(function(err) {
@@ -149,7 +149,7 @@ router.get('', function(req, res) {
         }
 
         if(city && foundRentals.length === 0) {
-            return res.status(422).send({error: {title: 'No Rentals Found', detail: `There are no rentals available for city ${city}`}});
+            return res.status(422).send({error: [{title: 'No Rentals Found', detail: `There are no rentals available for city ${city}`}]});
         }
         return res.json(foundRentals);
     });
